@@ -214,3 +214,185 @@ let arr = [1, 2, 3, 4, 5];
 console.log(arr.fill(0, 0, 5));				// [0, 0, 0, 0, 0]
 console.log(arr);											// [0, 0, 0, 0 ,0] 改变数组
 ```
+
+##### flat
+flat()会按照一个可指定的深度递归遍历数组, 并将所有元素与遍历到的子数组中的元素合并为一个新数组返回
+```javascript
+let arr = [1, 2, [3, 4, [5]]];
+console.log(arr.flat(2));							// [1, 2, 3, 4, 5]
+
+console.log(arr);											// [1, 2, [3, 4, [5]]] 不改变原数组
+```
+
+##### keys
+keys()返回一个包含数组中每个索引键的```Array Iterator```对象
+```javascript
+let arr = [1, 2, 3, 4, 5];
+let iterator = arr.keys();
+
+for (const key of iterator) {
+  console.log(key);
+  // 0
+  // 1
+  // 2
+}
+
+console.log(arr);												// [1, 2, 3, 4, 5] 不改变原数组
+```
+#### 常用操作
+
+##### 数组去重
+使用对象
+```javascript
+let arr = [1, 2, 3, 1, 1, 1, 3, 5, 3];
+let obj = {};
+let newArr = [];
+arr.forEach(v => {
+  if(!ogj[v]) {
+    ogj[v] = 1;
+    newArr.push(v);
+  }
+})
+
+console.log(newArr);										// [1, 2, 3, 5]
+```
+
+使用Set
+```javascript
+let arr = [1, 2, 3, 1, 1, 1, 3, 5, 3];
+let newArr = Array.from(new Set(arr));
+// let newArr = [...(new Set(arr))];		// 使用ES6解构赋值
+
+console.log(newArr);										// [1, 2, 3, 5]
+```
+##### 扁平化数组
+使用flat
+```javascript
+let arr = [1, 2, [3, 4, [5]]];
+let newArr = arr.flat(2);
+
+console.log(newArr);										// [1, 2, 3, 4, 5]
+```
+
+递归实现flat
+```javascript
+function _flat(arr, maxN = 1, curN = 0) {
+  let newArr = [];
+  if (curN >= maxN) return arr;
+  arr.forEach((v, i, array) => {
+    if (Array.isArray(v)) {
+      newArr.push(..._flat(v, maxN, curN + 1));
+    } else newArr.push(v);
+  })
+  return newArr;
+}
+
+let arr = [1, 2, [3, 4, [5]]];
+let newArr = _flat(arr, 1);							// 扁平化一层
+
+console.log(newArr);										// [1, 2, 3, 4, [5]]
+```
+
+##### 统计一个字符串中出现最多的字符
+使用数组将字符的```ASCII```码作为```key```制作桶
+```javascript
+let s = "ASASRKIADAA";
+let arr = [];
+let base = 65;													// A-Z 65-90 a-z 97-122
+Array.prototype.forEach.call(s, (v) => {
+  let ascii = v.charCodeAt(0) - base;
+  if (arr[ascii]) {
+    ++arr[ascii];
+  } else arr[ascii] = 1;
+})
+
+let max = 0;
+let maxIndex = 0;
+arr.forEach((v, i) => {
+  if (v > max) {
+    max = v;
+    maxIndex = i;
+  }
+})
+
+console.log(String.fromCharCode(maxIndex + base), arr[maxIndex]);	// A 5
+```
+
+##### 找出数组中的最大值
+遍历数组
+```javascript
+let arr = [1, 2, 3, 1, 1, 1, 3, 5, 3];
+let max = -Infinity;
+arr.forEach(v => {
+  if (v > max) max = v;
+})
+
+console.log(max);										// 5
+```
+
+使用```Math```
+```javascript
+let arr = [1, 2, 3, 1, 1, 1, 3, 5, 3];
+let max = Math.max(...arr);
+console.log(max);											// 5
+```
+
+使用```reduce```
+```javascript
+let arr = [1, 2, 3, 1, 1, 1, 3, 5, 3];
+let max = arr.reduce((a, v) => {
+  return a > v ? a : v;
+})
+
+console.log(max);											// 5
+```
+
+##### 拷贝数组
+遍历数组使用```push```
+```javascript
+let arr = [1, 2, 3, 4, 5];
+let newArr = [];
+arr.forEach(v => newArr.push(v));
+
+console.log(newArr);									// [1, 2, 3, 4, 5]
+```
+
+使用```concat```
+```javascript
+let arr = [1, 2, 3, 4, 5];
+let newArr = [].concat(arr);
+console.log(newArr);									// [1, 2, 3, 4, 5]
+```
+使用```slice```
+```javascript
+let arr = [1, 2, 3, 4, 5];
+let newArr = arr.slice(0);
+console.log(newArr);									// [1, 2, 3, 4, 5];
+```
+
+##### 随机打乱一个数组
+随机交换N次
+```javascript
+function randomInt(a, b) {
+  return Number.parseInt(Math.random() * (b-a) + a);
+}
+
+let arr = [1, 2, 3, 4, 5];
+let N = arr.length;
+arr.forEach((v, i, arr) => {
+  let ran = randomInt(0, N);
+  [arr[i], arr[ran]] = [arr[ran], arr[i]];
+})
+
+console.log(arr);
+```
+
+随机排序
+```javascript
+let arr = [1, 2, 3, 4, 5];
+arr.sort((v1, v2) => {
+  return Math.random() >= 0.5 ? 1 : -1;
+})
+
+console.log(arr);
+```

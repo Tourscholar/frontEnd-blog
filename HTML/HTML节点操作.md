@@ -18,6 +18,7 @@
   let b1 = document.createElement("div");
   b1.innerText = "添加到d1前"
   document.getElementById("t1").insertBefore(b1, document.getElementById("d1"));		// 将b1节点添加到t1节点内的d1节点前
+</script>
 ```
 
 #### 替换节点

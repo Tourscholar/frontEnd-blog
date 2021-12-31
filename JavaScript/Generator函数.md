@@ -21,7 +21,7 @@ const g = f(1);
 console.log(g);						// f {<suspended>}
 console.log(g.next());		// {value: 11, done: false}
 console.log(g.next());		// {value: 21, done: false}
-console.log(g.next());		// {value: 31, done: true}
+console.log(g.next());		// {value: 31, done: false}
 console.log(g.next());		// {value: undefined, done: true}
 ```
 
@@ -77,8 +77,8 @@ console.log(g);								// f {suspended}
 console.log(g.next());				// {value: 11, done: false}
 console.log(g.next());				// {value: 100, done: false}
 console.log(g.next());				// {value: 200, done: false}
+console.log(g.next());				// {value: 300, done: false}
 console.log(g.next());				// {value: 31, done: false}
-console.log(g.next());				// {value: undefined, done: true}
 ```
 
 #### 异步操作的同步化表示

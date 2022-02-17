@@ -8,7 +8,7 @@ setTimeout((res) => { console.log(res) }, 1000)
 `Promise`就是异步编程的一种解决方案, 它最早由社区提供, ES6将其写进了语言标准, 统一了用法, 原生提供了`Promise`对象
 
 #### Promise对象的两个特点
-  - 1. Promise对象的状态不受外界影响. Promise对象代表一个异步操作, 有三种状态: `pending`(进行中), `fulfilled`(已成功), `rejected`(已失败). 只有异步操作的结果可以决定当前是哪一种状态, 任何其他操作都无法改变这个状态
+  - Promise对象的状态不受外界影响. Promise对象代表一个异步操作, 有三种状态: `pending`(进行中), `fulfilled`(已成功), `rejected`(已失败). 只有异步操作的结果可以决定当前是哪一种状态, 任何其他操作都无法改变这个状态
   - Promise对象的状态一旦改变就不再变了, 任何时候都可以得到这个结果. Promise对象的状态改变, 只有两种可能: 从`pending`变为`fulfilled`和从`pending`变为`rejected`(已失败). 只要这两种情况发生, 状态就凝固了, 不会再变了, 会一直保持这个解结果, 这时就称为`resolved`(已定型). 如果改变已经发生了, 再对Promise对象添加回调函数, 页会立即得到这个结果
 
 Promise也有一些缺点: 首先, 无法取消Promise, 一旦新建它就会立即执行, 无法中途取消; 其次, 如果不设置回调函数, Promise内部抛出的错误不会反应到外部, 如果不主动`catch`捕获Promise内部抛出的异常, 则在`FireFox`中异常不会抛出, 在`Chrome`中的异常会抛出但不会触发`window.onerror`事件; 当处于`pending`状态时, 无法得知目前进展到哪一个阶段
